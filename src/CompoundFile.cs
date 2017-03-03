@@ -545,8 +545,7 @@ namespace OpenMcdf
                     if (gap)
                         sourceStream.Seek((long)((long)(sSize) + (long)i * (long)sSize), SeekOrigin.Begin);
 
-                    sourceStream.Write(s.GetData(), 0, sSize);
-                    sourceStream.Flush();
+                    sourceStream.Write(s.GetData(), 0, sSize);                    
                     s.DirtyFlag = false;
                     gap = false;
 
@@ -559,7 +558,7 @@ namespace OpenMcdf
                 if (releaseMemory)
                 {
 
-                    s.ReleaseData();
+                    s?.ReleaseData();
                     s = null;
                     sectors[i] = null;
 
@@ -622,6 +621,9 @@ namespace OpenMcdf
                 }
 #endif
             }
+
+            // Move this here for less frequent flushing
+            sourceStream.Flush();
 
 #if !FLAT_WRITE
             sCount = flushingQueue.Count;

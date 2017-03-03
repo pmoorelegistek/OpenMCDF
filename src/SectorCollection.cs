@@ -127,6 +127,8 @@ namespace OpenMcdf
         {
             foreach (ArrayList slice in largeArraySlices)
             {
+                foreach (Sector item in slice)      
+                    item?.ReleaseData();    // helps with GC
                 slice.Clear();
             }
 
